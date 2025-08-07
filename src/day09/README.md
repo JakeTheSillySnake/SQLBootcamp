@@ -4,118 +4,6 @@
 
 Resume: Today you will see how to create and use functional blocks in Databases.
 
-💡 [Tap here](https://new.oprosso.net/p/4cb31ec3f47a4596bc758ea1861fb624) **to leave your feedback on the project**. It's anonymous and will help our team make your educational experience better. We recommend completing the survey immediately after the project.
-
-## Contents
-
-1. [Chapter I](#chapter-i) \
-    1.1. [Preamble](#preamble)
-2. [Chapter II](#chapter-ii) \
-    2.1. [General Rules](#general-rules)
-3. [Chapter III](#chapter-iii) \
-    3.1. [Rules of the day](#rules-of-the-day)  
-4. [Chapter IV](#chapter-iv) \
-    4.1. [Exercise 00 — Audit of incoming inserts](#exercise-00-audit-of-incoming-inserts)  
-5. [Chapter V](#chapter-v) \
-    5.1. [Exercise 01 — Audit of incoming updates](#exercise-01-audit-of-incoming-updates)  
-6. [Chapter VI](#chapter-vi) \
-    6.1. [Exercise 02 — Audit of incoming deletes](#exercise-02-audit-of-incoming-deletes)  
-7. [Chapter VII](#chapter-vii) \
-    7.1. [Exercise 03 — Generic Audit](#exercise-03-generic-audit)  
-8. [Chapter VIII](#chapter-viii) \
-    8.1. [Exercise 04 — Database View VS Database Function](#exercise-04-database-view-vs-database-function)
-9. [Chapter IX](#chapter-ix) \
-    9.1. [Exercise 05 — Parameterized Database Function](#exercise-05-parameterized-database-function)
-10. [Chapter X](#chapter-x) \
-    10.1. [Exercise 06 — Function like a function-wrapper](#exercise-06-function-like-a-function-wrapper)
-11. [Chapter XI](#chapter-xi) \
-    11.1. [Exercise 07 — Different view to find a Minimum](#exercise-07-different-view-to-find-a-minimum)
-12. [Chapter XII](#chapter-xii) \
-    12.1. [Exercise 08 — Fibonacci algorithm is in a function](#exercise-08-fibonacci-algorithm-is-in-a-function)    
-      
-
-## Chapter I
-## Preamble
-
-![D09_01](misc/images/D09_01.png)
-
-There are many functional programming languages in the RDBMS world. We can mainly talk about a "one-to-one" dependency between a particular RDBMS engine and the functional language inside it. Please take a look at a sample of these languages:
-- T-SQL,
-- PL/SQL,
-- SQL,
-- PL/PGSQL,
-- PL/R,
-- PL/Python,
-- etc.
-
-Actually, there are two opposing opinions in the IT world about where business logic should be located. The first opinion is on Application Level, the second one is in RDBMS directly based on set UDF (User Defined Functions / Procedures / Packages). 
-Everyone chooses their own way to implement business logic. From our point of view, business logic should be in both places and we can tell you why.  
-Please take a look at the 2 simple architectures below. 
-
-|  |  |
-| ------ | ------ |
-| ![D09_02](misc/images/D09_02.png) | Everything is clear, frontends and backends work through a special REST API layer that implements all the business logic. It's a really ideal application world. |
-| But there are always some privileged people / applications (like IDE) that work directly with our databases and... our pattern can be broken. | ![D09_03](misc/images/D09_03.png) |
-
-Just think about it and try to create a clean architecture :-)
-
-
-## Chapter II
-## General Rules
-
-- Use this page as your only reference. Do not listen to rumors and speculations about how to prepare your solution.
-- Make sure you are using the latest version of PostgreSQL.
-- It is perfectly fine if you use the IDE to write source code (aka SQL script).
-- To be evaluated, your solution must be in your GIT repository.
-- Your solutions will be evaluated by your peers.
-- You should not leave any files in your directory other than those explicitly specified by the exercise instructions. It is recommended that you modify your `.gitignore` to avoid accidents.
-- Got a question? Ask your neighbor to the right. Otherwise, try your neighbor on the left.
-- Your reference manual: mates / Internet / Google. 
-- Read the examples carefully. You may need things not specified in the topic.
-- And may the SQL-Force be with you!
-Absolutely anything can be represented in SQL! Let's get started and have fun!
-
-## Chapter III
-## Rules of the day
-
-- Please make sure you have your own database and access to it on your PostgreSQL cluster. 
-- Please download a [script](materials/model.sql) with Database Model here and apply the script to your database (you can use command line with psql or just run it through any IDE, for example DataGrip from JetBrains or pgAdmin from PostgreSQL community). **Our knowledge way is incremental and linear therefore please be aware all changes that you made in Day03 during Exercises 07-13 and in Day04 during Exercise 07 should be on place (its similar like in real world, when we applied a release and need to be consistency with data for new changes).**
-- All tasks contain a list of Allowed and Denied sections with listed database options, database types, SQL constructions etc. Please have a look at the section before you start.
-- Please take a look at the Logical View of our Database Model. 
-
-![schema](misc/images/schema.png)
-
-
-1. **pizzeria** table (Dictionary Table with available pizzerias)
-- field id — primary key
-- field name — name of pizzeria
-- field rating — average rating of pizzeria (from 0 to 5 points)
-2. **person** table (Dictionary Table with persons who loves pizza)
-- field id — primary key
-- field name — name of person
-- field age — age of person
-- field gender — gender of person
-- field address — address of person
-3. **menu** table (Dictionary Table with available menu and price for concrete pizza)
-- field id — primary key
-- field pizzeria_id — foreign key to pizzeria
-- field pizza_name — name of pizza in pizzeria
-- field price — price of concrete pizza
-4. **person_visits** table (Operational Table with information about visits of pizzeria)
-- field id — primary key
-- field person_id — foreign key to person
-- field pizzeria_id — foreign key to pizzeria
-- field visit_date — date (for example 2022-01-01) of person visit 
-5. **person_order** table (Operational Table with information about persons orders)
-- field id — primary key
-- field person_id — foreign key to person
-- field menu_id — foreign key to menu
-- field order_date — date (for example 2022-01-01) of person order 
-
-People's visit and people's order are different entities and don't contain any correlation between data. For example, a customer can be in a restaurant (just looking at the menu) and in that time place an order in another restaurant by phone or mobile application. Or another case, just be at home and again make a call with order without any visits.
-
-
-## Chapter IV
 ## Exercise 00 — Audit of incoming inserts
 
 | Exercise 00: Audit of incoming inserts |                                                                                                                          |
@@ -150,8 +38,6 @@ So, please define a Database Trigger with the name `trg_person_insert_audit` wit
 When you are done with the trigger objects, please issue an `INSERT` statement into the person table. 
 `INSERT INTO person(id, name, age, gender, address) VALUES (10,'Damir', 22, 'male', 'Irkutsk');`
 
-
-## Chapter V
 ## Exercise 01 — Audit of incoming updates
 
 | Exercise 01: Audit of incoming updates|                                                                                                                          |
@@ -168,8 +54,6 @@ When you are ready, apply the UPDATE statements below.
 `UPDATE person SET name = 'Bulat' WHERE id = 10;`
 `UPDATE person SET name = 'Damir' WHERE id = 10;`
 
-
-## Chapter VI
 ## Exercise 02 — Audit of incoming deletes
 
 | Exercise 02: Audit of incoming deletes|                                                                                                                          |
@@ -185,7 +69,6 @@ When you are ready, use the SQL statement below.
 
 `DELETE FROM person WHERE id = 10;`
 
-## Chapter VII
 ## Exercise 03 — Generic Audit
 
 | Exercise 03: Generic Audit |                                                                                                                          |
@@ -210,8 +93,6 @@ When you are ready, reapply the set of DML statements.
 `UPDATE person SET name = 'Damir' WHERE id = 10;`
 `DELETE FROM person WHERE id = 10;`
 
-
-## Chapter VIII
 ## Exercise 04 — Database View VS Database Function
 
 
@@ -235,8 +116,6 @@ To check yourself and call a function, you can make a statement like this (Amazi
     SELECT *
     FROM fnc_persons_female();
 
-
-## Chapter IX
 ## Exercise 05 — Parameterized Database Function
 
 
@@ -258,8 +137,6 @@ To check yourself and call a function, you can make a statement like this (Wow! 
     select *
     from fnc_persons();
 
-
-## Chapter X
 ## Exercise 06 — Function like a function-wrapper
 
 
@@ -282,8 +159,6 @@ To check yourself and call a function, you can make a statement like the one bel
     select *
     from fnc_person_visits_and_eats_on_date(pperson := 'Anna',pprice := 1300,pdate := '2022-01-01');
 
-
-## Chapter XI
 ## Exercise 07 — Different view to find a Minimum
 
 
@@ -300,8 +175,6 @@ To check yourself and call a function, you can make a statement like the one bel
 
     SELECT func_minimum(VARIADIC arr => ARRAY[10.0, -1.0, 5.0, 4.4]);
 
-
-## Chapter XII
 ## Exercise 08 — Fibonacci algorithm is in a function
 
 

@@ -4,80 +4,6 @@
 
 Resume: Today you will know what DWH is and how to create a first ETL process.
 
-💡 [Tap here](https://new.oprosso.net/p/4cb31ec3f47a4596bc758ea1861fb624) **to leave your feedback on the project**. It's anonymous and will help our team make your educational experience better. We recommend completing the survey immediately after the project.
-
-## Contents
-
-1. [Chapter I](#chapter-i) \
-    1.1. [Preamble](#preamble)
-2. [Chapter II](#chapter-ii) \
-    2.1. [General Rules](#general-rules)
-3. [Chapter III](#chapter-iii) \
-    3.1. [Rules of the day](#rules-of-the-day)  
-4. [Chapter IV](#chapter-iv) \
-    4.1. [Exercise 00 — Classical DWH](#exercise-00-classical-dwh)  
-5. [Chapter V](#chapter-v) \
-    5.1. [Exercise 01 — Detailed Query](#exercise-01-detailed-query)  
-
-## Chapter I
-## Preamble
-
-![T01_01](misc/images/T01_01.png)
-
-A Data Warehousing (DWH) is a process for collecting and managing data from disparate sources to provide meaningful business insights. A data warehouse is typically used to connect and analyze business data from heterogeneous sources. The data warehouse is the core of the BI system built for data analysis and reporting.
-
-There are 2 DWH-"fathers" with opposing opinions on how to make a better DWH from logical data layers.
-
-|  |  |
-| ------ | ------ |
-| "A DWH is a subject-oriented, integrated, non-volatile, and time-varying collection of data to support management decisions." (Bill Inmon) | ![T01_02](misc/images/T01_02.png) |
-| ![T01_03](misc/images/T01_03.png) | "A DWH is a system that extracts, cleanses, conforms, and delivers source data into a dimensional data store, and then supports and implements query and analysis for decision making." (Ralph Kimball) |
-
-Nowadays, Big Data is coming more and more and we need more resources to control, structure and further explore our data. To support classical DataWareHouse systems, there is a new pattern called LakeHouse (based on λ-architecture) = DataLake + DataWareHouse. From a logical point of view, we can imagine a modern LakeHouse as a set of logical data layers.
-
-![T01_04](misc/images/T01_04.png)
-
-Therefore, to be a Data Architect you need to know a "bit more" than Relational Modeling. 
-Let's look at the list of existing Data Models Patterns: 
-- Relational Model,
-- Temporal Model,
-- BiTemporal Model,
-- USS Model,
-- EAV Model,
-- Star / Snowflake Models,
-- Galaxy Model,
-- Data Vault Model,
-- Anchor Model,
-- Graph Model.
-
-
-## Chapter II
-## General Rules
-
-- Use this page as your only reference. Do not listen to rumors and speculations about how to prepare your solution.
-- Make sure you are using the latest version of PostgreSQL.
-- It is perfectly fine if you use the IDE to write source code (aka SQL script).
-- To be evaluated, your solution must be in your GIT repository.
-- Your solutions will be evaluated by your peers.
-- You should not leave any files in your directory other than those explicitly specified by the exercise instructions. It is recommended that you modify your `.gitignore` to avoid accidents.
-- Got a question? Ask your neighbor to the right. Otherwise, try your neighbor on the left.
-- Your reference manual: mates / Internet / Google. 
-- Read the examples carefully. You may need things not specified in the topic.
-- And may the SQL-Force be with you!
-Absolutely anything can be represented in SQL! Let's get started and have fun!
-
-## Chapter III
-## Rules of the day
-
-- Please make sure you have your own database and access to it on your PostgreSQL cluster. 
-- All tasks contain a list of Allowed and Denied sections with listed database options, database types, SQL constructions etc. Please have a look at the section before you start.
-- Please download a [script](materials/rush01_model.sql) with Database Model here and apply the script to your database (you can use command line with psql or just run it through any IDE, for example DataGrip from JetBrains or pgAdmin from PostgreSQL community). 
-- Please take a look at the Logical View of our Database Model. 
-
-![schema](misc/images/schema.png)
-
-
-## Chapter IV
 ## Exercise 00 — Classical DWH
 
 | Exercise 00: Classical DWH|                                                                                                                          |
@@ -88,8 +14,6 @@ Absolutely anything can be represented in SQL! Let's get started and have fun!
 | Language                        |  SQL|
 
 Let's take a look at the data sources and the first logical data layer (ODS — Operational Data Store) in the DWH.
-
-![T01_05](misc/images/T01_05.png)
 
 `User` table Definition (in a Green Source Database):
 
@@ -209,8 +133,6 @@ See a sample of the output data below. Sort the result by User Name in descendin
 | Иван | Иванов | 1 | 410 | EUR | 0.9 | 369 |
 | ... | ... | ... | ... | ... | ... | ... |
 
-
-## Chapter V
 ## Exercise 01 — Detailed Query
 
 | Exercise 01: Detailed Query|                                                                                                                          |
@@ -237,7 +159,6 @@ Below is a table of result columns and the corresponding calculation formula.
 | currency_name | source: currency.name | 
 | currency_in_usd | involved sources: currency.rate_to_usd, currency.updated, balance.updated.Take a look at a graphical interpretation of the formula below.| 
 
-![T01_06](misc/images/T01_06.png)
 
 - You need to find a nearest rate_to_usd of currency in the past (t1).
 - If t1 is empty (means no rates in the past), then find a nearest rate_to_usd of currency in the future (t2).
